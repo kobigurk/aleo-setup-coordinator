@@ -175,8 +175,8 @@ export class ShellContributor extends Phase1 implements ShellCommand {
 
     async load(): Promise<void> {
         const challengeContribution = this.chunkData.contributions[
-        this.chunkData.contributions.length - 1
-            ]
+            this.chunkData.contributions.length - 1
+        ]
         const challengeUrl = challengeContribution.verifiedLocation
         const challengeFile = await fetch({ url: challengeUrl })
 
