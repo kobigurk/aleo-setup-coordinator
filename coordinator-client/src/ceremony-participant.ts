@@ -10,6 +10,7 @@ export abstract class CeremonyParticipant {
     auth: Auth
     participantId: string
     axios: AxiosInstance
+    baseUrl: string
     chunkUploader: ChunkUploader
 
     constructor({
@@ -28,6 +29,7 @@ export abstract class CeremonyParticipant {
         this.axios = axios.create({
             baseURL: baseUrl,
         })
+        this.baseUrl = baseUrl
         this.chunkUploader = chunkUploader
     }
 
