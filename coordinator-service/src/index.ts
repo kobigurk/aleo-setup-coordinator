@@ -160,6 +160,12 @@ function init(args): void {
     DiskCoordinator.init({ config, dbPath })
 }
 
+/**
+ * If `init` is provided as argument input, this function initializes the database.
+ * If `http` is provided as argument input, this function starts the server.
+ *
+ * @param args - Takes on either `init` or `http` as argument value.
+ */
 function main(args): void {
     logger.info('invoked with args %o', args)
 
