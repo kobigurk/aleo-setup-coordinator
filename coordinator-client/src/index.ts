@@ -64,8 +64,9 @@ async function work({
     let incompleteChunks = await client.getChunksRemaining()
     while (incompleteChunks.length) {
         const ceremony = await client.getCeremony()
-        const completedChunkCount =
-            ceremony.chunks.length - incompleteChunks.length
+        console.log("Ceremony State -", ceremony)
+
+        const completedChunkCount = ceremony.chunks.length - incompleteChunks.length
         const remainingChunkIds = incompleteChunks.map((chunk) => chunk.chunkId)
         logger.info(
             `completed ${completedChunkCount} / ${ceremony.chunks.length}`,
