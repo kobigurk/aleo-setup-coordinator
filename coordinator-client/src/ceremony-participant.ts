@@ -50,7 +50,7 @@ export abstract class CeremonyParticipant {
                     }),
                 },
             })
-        ).data.result as Ceremony
+        ).data as Ceremony
     }
 
     async tryLock(chunkId: string): Promise<boolean> {
