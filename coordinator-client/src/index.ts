@@ -5,6 +5,16 @@ import fs from 'fs'
 import yargs = require('yargs')
 import tmp from 'tmp'
 
+import { AuthAleo } from './auth-aleo'
+import { AuthCelo } from './auth-celo'
+import { AuthDummy } from './auth-dummy'
+import { ChunkData } from './ceremony'
+import {
+    CeremonyParticipant,
+    CeremonyContributor,
+    CeremonyVerifier,
+} from './ceremony-participant'
+import { DefaultChunkUploader } from './chunk-uploader'
 import { logger } from './logger'
 import {
     extractPowersoftau,
@@ -13,15 +23,6 @@ import {
     ShellVerifier,
     ShellCommand,
 } from './shell-contributor'
-import {
-    CeremonyParticipant,
-    CeremonyContributor,
-    CeremonyVerifier,
-} from './ceremony-participant'
-import { ChunkData } from './ceremony'
-import { DefaultChunkUploader } from './chunk-uploader'
-import { AuthCelo } from './auth-celo'
-import { AuthDummy } from './auth-dummy'
 
 dotenv.config()
 tmp.setGracefulCleanup()
@@ -138,10 +139,7 @@ async function contribute(args): Promise<void> {
         chunkUploader,
     })
 
-
     const contributor = (chunkData: ChunkData): ShellContributor => {
-        console.log("@@@@@@@", chunkData,  args.command, args.seedFile)
-
         return new ShellContributor({
             chunkData: chunkData,
             contributorCommand: args.command,
@@ -239,7 +237,7 @@ async function main(): Promise<void> {
             describe: 'Ceremony API url',
         },
         'auth-type': {
-            choices: ['celo', 'dummy'],
+            choices: ['aleo', 'celo', 'dummy'],
             default: 'dummy',
             type: 'string',
         },
@@ -247,6 +245,14 @@ async function main(): Promise<void> {
             type: 'string',
             demand: true,
             describe: 'ID of ceremony participant',
+        },
+        'aleo-private-key': {
+            type: 'string',
+            describe: 'Private key if using Aleo auth (for development)',
+        },
+        'aleo-private-key-file': {
+            type: 'string',
+            describe: 'Path to private key if using Aleo auth',
         },
         'celo-private-key': {
             type: 'string',
@@ -334,7 +340,17 @@ async function main(): Promise<void> {
         logger.debug(`using built-in powersoftau at ${args.command}`)
     }
 
-    if (args.authType === 'celo') {
+    if (args.authType === 'aleo') {
+        let privateKey = args.aleoPrivateKey
+        if (!privateKey) {
+            privateKey = fs.readFileSync(args.aleoPrivateKeyFile).toString()
+        }
+
+        args.auth = new AuthAleo({
+            address: args.participantId,
+            privateKey,
+        })
+    } else if (args.authType === 'celo') {
         let privateKey = args.celoPrivateKey
         if (!privateKey) {
             privateKey = fs.readFileSync(args.celoPrivateKeyFile).toString()

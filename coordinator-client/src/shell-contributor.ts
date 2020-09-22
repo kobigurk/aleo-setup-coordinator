@@ -78,10 +78,14 @@ abstract class Powersoftau {
     contributorCommand: string
     chunkData: ChunkData
 
-    curveKind = 'bw6'
-    batchSize = 64
-    chunkSize = 512
+    provingSystem = 'groth16'
+    curveKind = 'bls12_377'
     power = 10
+
+    contributionMode = 'chunked'
+    batchSize = 64
+    chunkIndex = 0
+    chunkSize = 512
 
     constructor({ contributorCommand }: { contributorCommand: string }) {
         this.contributorCommand = contributorCommand
@@ -89,16 +93,20 @@ abstract class Powersoftau {
 
     _exec(...args: string[]): execa.ExecaChildProcess {
         const baseArgs = [
-            '--curve-kind',
-            this.curveKind,
             '--batch-size',
             this.batchSize.toString(),
-            '--contribution-mode',
-            'chunked',
+            '--chunk-index',
+            this.chunkIndex.toString(),
             '--chunk-size',
             this.chunkSize.toString(),
+            '--contribution-mode',
+            this.contributionMode.toString(),
+            '--curve-kind',
+            this.curveKind,
             '--power',
             this.power.toString(),
+            '--proving-system',
+            this.provingSystem.toString(),
         ]
 
         const powersoftauArgs = [...baseArgs, ...args]

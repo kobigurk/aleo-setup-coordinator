@@ -1,24 +1,5 @@
 # coordinator-client
 
-## Using
-
-If you have a pre-built executable, use `--help` for an overview:
-
-```
-./coordinator-client-linux --help
-./coordinator-client-linux contribute --help
-```
-
-Every command line option is also configurable with an environment
-variable or [dotenv](https://www.npmjs.com/package/dotenv)
-file. Upper snake-case the command line option and prepend
-`COORDINATOR_`.  E.g.,
-
-```
-./coordinator-client-linux contribute --seed-file ./seed
-COORDINATOR_SEED_FILE=./seed ./coordinator-client-linux contribute
-```
-
 ## Build Guide
 
 ### Install Dependencies
@@ -40,12 +21,12 @@ echo "COORDINATOR_SEED_FILE=seed" > .env
 
 Set `COORDINATOR_PARTICIPANT_ID` and contribute:
 ```
-COORDINATOR_PARTICIPANT_ID=dave npm run start contribute
+COORDINATOR_PARTICIPANT_ID=dave yarn start contribute
 ```
 
 or verify:
 ```
-COORDINATOR_PARTICIPANT_ID=verifier0 npm run start-verifier
+COORDINATOR_PARTICIPANT_ID=verifier0 yarn start:verifier
 ```
 
 ### Initial challenges for testing
@@ -64,4 +45,23 @@ Build executable:
 
 ```
 npm run pkg
+```
+
+## Using
+
+If you have a pre-built executable, use `--help` for an overview:
+
+```
+./coordinator-client-linux --help
+./coordinator-client-linux contribute --help
+```
+
+Every command line option is also configurable with an environment
+variable or [dotenv](https://www.npmjs.com/package/dotenv)
+file. Upper snake-case the command line option and prepend
+`COORDINATOR_`.  E.g.,
+
+```
+./coordinator-client-linux contribute --seed-file ./seed
+COORDINATOR_SEED_FILE=./seed ./coordinator-client-linux contribute
 ```
