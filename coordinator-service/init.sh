@@ -17,3 +17,7 @@ cp ./config/aleo.env .env
 yarn clean
 
 #####
+
+rm -rf .storage
+
+#####
