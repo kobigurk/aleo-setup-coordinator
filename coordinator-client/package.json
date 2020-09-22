@@ -16,8 +16,8 @@
     "contribute:becky": "yarn prestart && node dist/index.js contribute --participant-id=becky",
     "verify": "yarn prestart && node dist/index.js verify",
     "verify0": "yarn prestart && node dist/index.js verify --participant-id=verifier0",
-    "coverage": "nyc mocha -r ts-node/register src/**/*.test.ts",
-    "test": "yarn prestart && npm run coverage && prettier --check \"./src/**/*.ts\" && eslint 'src/**/*.ts'",
+    "coverage": "yarn prestart && nyc mocha -r ts-node/register src/**/*.test.ts",
+    "test": "npm run coverage && prettier --check \"./src/**/*.ts\" && eslint 'src/**/*.ts'",
     "format": "prettier --loglevel error --write \"./src/**/*.ts\"",
     "lint": "eslint 'src/**/*.ts' --fix"
   },
