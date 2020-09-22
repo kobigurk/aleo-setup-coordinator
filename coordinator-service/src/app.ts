@@ -36,10 +36,8 @@ export function initExpress({
     // Returns the current state of the ceremony in JSON format.
     app.get('/ceremony', (req, res) => {
         logger.info('GET /ceremony')
-        res.json({
-            result: JSON.stringify(coordinator.getCeremony(), null, 4),
-            status: 'ok',
-        })
+        res.header("Content-Type",'application/json')
+        res.send(JSON.stringify(coordinator.getCeremony(), null, 4))
     })
 
     app.put(
