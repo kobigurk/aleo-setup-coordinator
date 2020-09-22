@@ -20,7 +20,7 @@ cp ./config/local.env .env
 Reset the ceremony state:
 
 ```
-npm run reset-db
+npm run clean
 ```
 
 Initialize the database:
