@@ -37,7 +37,7 @@ export function initExpress({
     app.get('/ceremony', (req, res) => {
         logger.info('GET /ceremony')
         res.json({
-            result: coordinator.getCeremony(),
+            result: JSON.stringify(coordinator.getCeremony(), null, 4),
             status: 'ok',
         })
     })

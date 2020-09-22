@@ -9,8 +9,8 @@ VERIFIER_ADDRESS="0xEC60b9a43529c12CA83Af466D8A6F8444392D47C"
 CHUNKS=10
 #####
 
-yarn initialize --seed-file "./seed" --auth-type "aleo" --participant-id $CONTRIBUTOR_ADDRESS --aleo-private-key $CONTRIBUTOR_PRIVATE_KEY --count $CHUNKS --api-url $URL
+#yarn initialize --seed-file "./seed" --auth-type "aleo" --participant-id $CONTRIBUTOR_ADDRESS --aleo-private-key $CONTRIBUTOR_PRIVATE_KEY --count $CHUNKS --api-url $URL
 
-#yarn contribute --seed-file "./seed" --auth-type "aleo" --participant-id $CONTRIBUTOR_ADDRESS --aleo-private-key $CONTRIBUTOR_PRIVATE_KEY --api-url $URL
+yarn contribute --seed-file "./seed" --auth-type "aleo" --participant-id $CONTRIBUTOR_ADDRESS --aleo-private-key $CONTRIBUTOR_PRIVATE_KEY --api-url $URL
 
 #yarn verify --seed-file "./seed" --auth-type "aleo" --participant-id $VERIFIER_ADDRESS --aleo-private-key $VERIFIER_PRIVATE_KEY --api-url $URL
