@@ -117,3 +117,12 @@ dist
 
 # pkg out-path
 pkg
+
+# IDE files
+**.idea/
+
+# Mac files
+**.DS_Store
+
+# Seed file from build guide
+seed

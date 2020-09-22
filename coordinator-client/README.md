@@ -19,7 +19,7 @@ file. Upper snake-case the command line option and prepend
 COORDINATOR_SEED_FILE=./seed ./coordinator-client-linux contribute
 ```
 
-## Development
+## Build Guide
 
 ### Setup
 
@@ -47,7 +47,7 @@ npm run build
 Set `COORDINATOR_PARTICIPANT_ID` and contribute:
 
 ```
-COORDINATOR_PARTICIPANT_ID=dave npm run start
+COORDINATOR_PARTICIPANT_ID=dave npm run start contribute
 ```
 
 or verify:

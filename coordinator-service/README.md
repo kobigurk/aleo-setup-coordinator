@@ -1,23 +1,18 @@
 # coordinator-service
 
-## Development
+## Build Guide
 
-### Setup
-
-Install dependencies:
-
+To install the Node.js dependencies, run:
 ```
 npm i
 ```
 
-Build:
-
+To build, run:
 ```
 npm run build
 ```
 
-Configure:
-
+Next, to create the environment file for chunking, run:
 ```
 cp ./config/local.env .env
 ```
@@ -26,6 +21,11 @@ Reset the ceremony state:
 
 ```
 npm run reset-db
+```
+
+Initialize the database:
+```
+npm run init-db
 ```
 
 If you're going to test with a coordinator-client, you must create the
