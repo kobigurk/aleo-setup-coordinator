@@ -83,7 +83,7 @@ const argv = yargs
 function http(args): void {
     // Loads the storage for chunked contributions.
     // Supports `disk` and `azure` modes.
-    let diskChunkStorage // TODO (howardwu): Move this into `disk` case after confirming.
+    let diskChunkStorage
     let chunkStorage: ChunkStorage
     if (args.chunkStorageType === 'disk') {
         const chunkStorageUrl = `${args.diskChunkStorageUrl}/chunks`

@@ -33,6 +33,7 @@ export function initExpress({
         groups: ['verifierIds'],
     })
 
+    // Returns the current state of the ceremony in JSON format.
     app.get('/ceremony', (req, res) => {
         logger.info('GET /ceremony')
         res.json({

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "setup": "yarn build && node dist/index.js init",
-    "prestart": "echo '\nInitializing database...\n' && yarn run setup && echo '\nStarting server...\n'",
+    "prestart": "echo '\nInitializing database...\n' && yarn setup && echo '\nStarting server...\n'",
     "start": "yarn prestart && node dist/index.js http",
     "start:watch": "yarn prestart && nodemon --watch dist dist/index.js http",
     "start:help": "node dist/index.js --help",

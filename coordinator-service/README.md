@@ -53,6 +53,13 @@ To query for ceremony state, run:
 curl localhost:8080/ceremony | jq '.'
 ```
 
+### Test
+
+To run the unit tests with code coverage, run:
+```
+yarn test
+```
+
 ## Configuration
 
 For help with command-line options, run:

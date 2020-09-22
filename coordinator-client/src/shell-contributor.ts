@@ -145,6 +145,67 @@ export class PowersoftauNew extends Powersoftau {
     }
 }
 
+// Run a command to generate a contribution.
+export class ShellContributor extends Powersoftau implements ShellCommand {
+    challengeFile: tmp.FileResult
+    contributionFileName: string
+    seedFile: string
+
+    constructor({
+        chunkData,
+        contributorCommand,
+        seedFile,
+    }: {
+        chunkData: ChunkData
+        contributorCommand: string
+        seedFile: string
+    }) {
+        super({ contributorCommand })
+        this.seedFile = seedFile
+        this.chunkData = chunkData
+    }
+
+    async load(): Promise<void> {
+        const challengeContribution = this.chunkData.contributions[
+        this.chunkData.contributions.length - 1
+            ]
+        const challengeUrl = challengeContribution.verifiedLocation
+        const challengeFile = await fetch({ url: challengeUrl })
+
+        this.challengeFile = challengeFile
+    }
+
+    async run(): Promise<string> {
+        this.contributionFileName = tmp.tmpNameSync()
+        const chunkIndex = this.chunkData.chunkId
+        await this._exec(
+            '--seed',
+            this.seedFile,
+            '--chunk-index',
+            chunkIndex,
+            'contribute',
+            '--challenge-fname',
+            this.challengeFile.name,
+            '--response-fname',
+            this.contributionFileName,
+        )
+        return this.contributionFileName
+    }
+
+    // It isn't necessary to call this, but seems prudent to help keep disk
+    // space overhead low.
+    cleanup(): void {
+        if (this.challengeFile) {
+            this.challengeFile.removeCallback()
+            this.challengeFile = null
+        }
+        if (this.contributionFileName) {
+            forceUnlink(this.contributionFileName)
+            this.contributionFileName = null
+        }
+    }
+}
+
 export class ShellVerifier extends Powersoftau implements ShellCommand {
     challengeFile: tmp.FileResult
     responseFile: tmp.FileResult
@@ -205,67 +266,6 @@ export class ShellVerifier extends Powersoftau implements ShellCommand {
                 fileToCleanup.removeCallback()
                 this[property] = null
             }
-        }
-        if (this.contributionFileName) {
-            forceUnlink(this.contributionFileName)
-            this.contributionFileName = null
-        }
-    }
-}
-
-// Run a command to generate a contribution.
-export class ShellContributor extends Powersoftau implements ShellCommand {
-    challengeFile: tmp.FileResult
-    contributionFileName: string
-    seedFile: string
-
-    constructor({
-        chunkData,
-        contributorCommand,
-        seedFile,
-    }: {
-        chunkData: ChunkData
-        contributorCommand: string
-        seedFile: string
-    }) {
-        super({ contributorCommand })
-        this.seedFile = seedFile
-        this.chunkData = chunkData
-    }
-
-    async load(): Promise<void> {
-        const challengeContribution = this.chunkData.contributions[
-            this.chunkData.contributions.length - 1
-        ]
-        const challengeUrl = challengeContribution.verifiedLocation
-        const challengeFile = await fetch({ url: challengeUrl })
-
-        this.challengeFile = challengeFile
-    }
-
-    async run(): Promise<string> {
-        this.contributionFileName = tmp.tmpNameSync()
-        const chunkIndex = this.chunkData.chunkId
-        await this._exec(
-            '--seed',
-            this.seedFile,
-            '--chunk-index',
-            chunkIndex,
-            'contribute',
-            '--challenge-fname',
-            this.challengeFile.name,
-            '--response-fname',
-            this.contributionFileName,
-        )
-        return this.contributionFileName
-    }
-
-    // It isn't necessary to call this, but seems prudent to help keep disk
-    // space overhead low.
-    cleanup(): void {
-        if (this.challengeFile) {
-            this.challengeFile.removeCallback()
-            this.challengeFile = null
         }
         if (this.contributionFileName) {
             forceUnlink(this.contributionFileName)

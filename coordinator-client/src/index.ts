@@ -99,6 +99,33 @@ async function work({
     logger.info('no more chunks remaining')
 }
 
+async function newChallenge(args): Promise<void> {
+    const powersoftauNew = new PowersoftauNew({
+        contributorCommand: args.command,
+        seedFile: args.seedFile,
+    })
+
+    const chunkUploader = new DefaultChunkUploader({ auth: args.auth })
+
+    for (let chunkIndex = 0; chunkIndex < args.count; chunkIndex++) {
+        logger.info(`creating challenge ${chunkIndex + 1} of ${args.count}`)
+        const contributionPath = tmp.tmpNameSync()
+
+        await powersoftauNew.run({
+            chunkIndex,
+            contributionPath,
+        })
+        const url = `${args.apiUrl}/chunks/${chunkIndex}/contribution/0`
+        await chunkUploader.upload({
+            url,
+            content: fs.readFileSync(contributionPath),
+        })
+        logger.info('uploaded %s', url)
+
+        fs.unlinkSync(contributionPath)
+    }
+}
+
 async function contribute(args): Promise<void> {
     const participantId = args.participantId
     const baseUrl = args.apiUrl
@@ -110,7 +137,11 @@ async function contribute(args): Promise<void> {
         baseUrl,
         chunkUploader,
     })
+
+
     const contributor = (chunkData: ChunkData): ShellContributor => {
+        console.log("@@@@@@@", chunkData,  args.command, args.seedFile)
+
         return new ShellContributor({
             chunkData: chunkData,
             contributorCommand: args.command,
@@ -141,33 +172,6 @@ async function verify(args): Promise<void> {
     }
 
     await work({ client, contributor })
-}
-
-async function newChallenge(args): Promise<void> {
-    const powersoftauNew = new PowersoftauNew({
-        contributorCommand: args.command,
-        seedFile: args.seedFile,
-    })
-
-    const chunkUploader = new DefaultChunkUploader({ auth: args.auth })
-
-    for (let chunkIndex = 0; chunkIndex < args.count; chunkIndex++) {
-        logger.info(`creating challenge ${chunkIndex + 1} of ${args.count}`)
-        const contributionPath = tmp.tmpNameSync()
-
-        await powersoftauNew.run({
-            chunkIndex,
-            contributionPath,
-        })
-        const url = `${args.apiUrl}/chunks/${chunkIndex}/contribution/0`
-        await chunkUploader.upload({
-            url,
-            content: fs.readFileSync(contributionPath),
-        })
-        logger.info('uploaded %s', url)
-
-        fs.unlinkSync(contributionPath)
-    }
 }
 
 async function httpAuth(args): Promise<void> {
@@ -345,12 +349,12 @@ async function main(): Promise<void> {
     }
 
     try {
-        if (mode === 'contribute') {
+        if (mode === 'new') {
+            await newChallenge(args)
+        } else if (mode === 'contribute') {
             await contribute(args)
         } else if (mode === 'verify') {
             await verify(args)
-        } else if (mode === 'new') {
-            await newChallenge(args)
         } else if (mode === 'http-auth') {
             await httpAuth(args)
         } else if (mode === 'ctl') {

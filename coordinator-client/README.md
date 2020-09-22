@@ -21,37 +21,29 @@ COORDINATOR_SEED_FILE=./seed ./coordinator-client-linux contribute
 
 ## Build Guide
 
-### Setup
+### Install Dependencies
 
-Install dependencies:
-
+First, to install the Node.js dependencies, run:
 ```
-npm i
+yarn install
 ```
 
-Configure powersoftau:
+Next, to generate the random seed file, run:
 
+*Ubuntu*
 ```
 echo -n "$(tr -dc 'A-F0-9' < /dev/urandom | head -c32)" > seed
 echo "COORDINATOR_SEED_FILE=seed" > .env
 ```
 
-Build:
-
-```
-npm run build
-```
-
-### Testing
+### Example
 
 Set `COORDINATOR_PARTICIPANT_ID` and contribute:
-
 ```
 COORDINATOR_PARTICIPANT_ID=dave npm run start contribute
 ```
 
 or verify:
-
 ```
 COORDINATOR_PARTICIPANT_ID=verifier0 npm run start-verifier
 ```

@@ -6,12 +6,14 @@
   "bin": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "pkg": "npm i && npm run build && pkg . --out-path=./pkg",
-    "start": "node dist/index.js",
-    "start-dave": "node dist/index.js contribute --participant-id=dave",
-    "start-becky": "node dist/index.js contribute --participant-id=becky",
-    "start-verifier": "node dist/index.js verify",
-    "start-verifier0": "node dist/index.js verify --participant-id=verifier0",
+    "pkg": "yarn install && yarn build && pkg . --out-path=./pkg",
+    "prestart": "yarn build",
+    "start": "yarn prestart && node dist/index.js",
+    "initialize": "yarn prestart && node dist/index.js new --seed-file \"./seed\" --count 4 --participant-id=dave",
+    "contribute:dave": "yarn prestart && node dist/index.js contribute --participant-id=dave",
+    "contribute:becky": "yarn prestart && node dist/index.js contribute --participant-id=becky",
+    "verify": "yarn prestart && node dist/index.js verify",
+    "verify0": "yarn prestart && node dist/index.js verify --participant-id=verifier0",
     "coverage": "nyc mocha -r ts-node/register src/**/*.test.ts",
     "test": "npm run coverage && prettier --check \"./src/**/*.ts\" && eslint 'src/**/*.ts'",
     "format": "prettier --loglevel error --write \"./src/**/*.ts\"",
@@ -25,6 +27,18 @@
   },
   "pkg": {
     "assets": "powersoftau/*"
+  },
+  "dependencies": {
+    "@azure/storage-blob": "^12.2.0-preview.1",
+    "@celo/utils": "^0.1.19",
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "execa": "^4.0.3",
+    "pino": "^6.5.1",
+    "pino-pretty": "^4.1.0",
+    "shuffle-array": "^1.0.1",
+    "tmp": "^0.2.1",
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
@@ -45,18 +59,6 @@
     "pkg": "^4.4.9",
     "prettier": "^2.0.5",
     "typescript": "^3.8.3"
-  },
-  "dependencies": {
-    "@azure/storage-blob": "^12.2.0-preview.1",
-    "@celo/utils": "^0.1.19",
-    "axios": "^0.19.2",
-    "dotenv": "^8.2.0",
-    "execa": "^4.0.3",
-    "pino": "^6.5.1",
-    "pino-pretty": "^4.1.0",
-    "shuffle-array": "^1.0.1",
-    "tmp": "^0.2.1",
-    "yargs": "^15.4.1"
   },
   "eslintConfig": {
     "extends": [
