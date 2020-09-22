@@ -16,6 +16,7 @@ yarn install
 echo -n "$(tr -dc 'A-F0-9' < /dev/urandom | head -c32)" > seed
 echo "COORDINATOR_SEED_FILE=seed" > .env
 
+
 ######
 #
 #yarn initialize
