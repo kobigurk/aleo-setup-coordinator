@@ -15,3 +15,5 @@ yarn install
 
 cp ./config/aleo.env .env
 yarn clean
+
+#####
