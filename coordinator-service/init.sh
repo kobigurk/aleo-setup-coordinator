@@ -11,6 +11,8 @@ sudo npm install yarn -g
 
 #####
 
+yarn install
+
 cp ./config/local.env .env
 yarn clean
 yarn setup
@@ -18,4 +20,3 @@ yarn setup
 #####
 
 yarn start:watch
-
