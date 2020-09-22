@@ -74,13 +74,13 @@ function forceUnlink(filePath): void {
     }
 }
 
-abstract class Powersoftau {
+abstract class Phase1 {
     contributorCommand: string
     chunkData: ChunkData
 
     provingSystem = 'groth16'
     curveKind = 'bls12_377'
-    power = 10
+    power = 15
 
     contributionMode = 'chunked'
     batchSize = 64
@@ -120,7 +120,7 @@ abstract class Powersoftau {
     }
 }
 
-export class PowersoftauNew extends Powersoftau {
+export class Phase1New extends Phase1 {
     seedFile: string
 
     constructor({
@@ -154,7 +154,7 @@ export class PowersoftauNew extends Powersoftau {
 }
 
 // Run a command to generate a contribution.
-export class ShellContributor extends Powersoftau implements ShellCommand {
+export class ShellContributor extends Phase1 implements ShellCommand {
     challengeFile: tmp.FileResult
     contributionFileName: string
     seedFile: string
@@ -214,7 +214,7 @@ export class ShellContributor extends Powersoftau implements ShellCommand {
     }
 }
 
-export class ShellVerifier extends Powersoftau implements ShellCommand {
+export class ShellVerifier extends Phase1 implements ShellCommand {
     challengeFile: tmp.FileResult
     responseFile: tmp.FileResult
     contributionFileName: string

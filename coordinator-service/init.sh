@@ -13,10 +13,5 @@ sudo npm install yarn -g
 
 yarn install
 
-cp ./config/local.env .env
+cp ./config/aleo.env .env
 yarn clean
-yarn setup
-
-#####
-
-yarn start:watch

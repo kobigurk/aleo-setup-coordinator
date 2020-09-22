@@ -18,7 +18,7 @@ import { DefaultChunkUploader } from './chunk-uploader'
 import { logger } from './logger'
 import {
     extractPowersoftau,
-    PowersoftauNew,
+    Phase1New,
     ShellContributor,
     ShellVerifier,
     ShellCommand,
@@ -101,7 +101,7 @@ async function work({
 }
 
 async function newChallenge(args): Promise<void> {
-    const powersoftauNew = new PowersoftauNew({
+    const powersoftauNew = new Phase1New({
         contributorCommand: args.command,
         seedFile: args.seedFile,
     })
@@ -214,10 +214,10 @@ async function main(): Promise<void> {
         return
     }
 
-    const powersoftauArgs = {
+    const phase1Args = {
         command: {
             type: 'string',
-            describe: 'Override the built-in powersoftau command',
+            describe: 'Override the built-in phase1 command',
         },
     }
 
@@ -270,24 +270,24 @@ async function main(): Promise<void> {
             dotenv.config({ path: configPath })
             return {}
         })
-        .command('contribute', 'Run the process to make contributions', {
-            ...participateArgs,
-            ...powersoftauArgs,
-            ...seedArgs,
-        })
-        .command('verify', 'Run the process to verify contributions', {
-            ...participateArgs,
-            ...powersoftauArgs,
-        })
         .command('new', 'Create new challenges for a ceremony', {
             ...participateArgs,
-            ...powersoftauArgs,
+            ...phase1Args,
             ...seedArgs,
             count: {
                 type: 'number',
                 demand: true,
                 describe: 'Number of challenges',
             },
+        })
+        .command('contribute', 'Run the process to make contributions', {
+            ...participateArgs,
+            ...phase1Args,
+            ...seedArgs,
+        })
+        .command('verify', 'Run the process to verify contributions', {
+            ...participateArgs,
+            ...phase1Args,
         })
         .command('ctl', 'Control the coordinator-service', {
             ...participateArgs,
@@ -321,7 +321,7 @@ async function main(): Promise<void> {
         })
         .command(
             'powersoftau',
-            'Run built-in powersoftau command directly',
+            'Run built-in phase1 command directly',
             (yargs) => {
                 return yargs.help(false).version(false)
             },
@@ -337,7 +337,7 @@ async function main(): Promise<void> {
     if (!args.command) {
         powersoftauTmpFile = await extractPowersoftau()
         args.command = powersoftauTmpFile.name
-        logger.debug(`using built-in powersoftau at ${args.command}`)
+        logger.debug(`using built-in phase1 at ${args.command}`)
     }
 
     if (args.authType === 'aleo') {
