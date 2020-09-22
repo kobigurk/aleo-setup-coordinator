@@ -10,7 +10,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/0/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/0/contribution/0",
         "verified": true
       }]
     },
@@ -21,7 +21,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/1/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/1/contribution/0",
         "verified": true
       }]
     },
@@ -32,7 +32,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/2/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/2/contribution/0",
         "verified": true
       }]
     },
@@ -43,7 +43,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/3/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/3/contribution/0",
         "verified": true
       }]
     },
@@ -54,7 +54,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/4/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/4/contribution/0",
         "verified": true
       }]
     },
@@ -65,7 +65,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/5/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/5/contribution/0",
         "verified": true
       }]
     },
@@ -76,7 +76,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/6/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/6/contribution/0",
         "verified": true
       }]
     },
@@ -87,7 +87,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/7/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/7/contribution/0",
         "verified": true
       }]
     },
@@ -98,7 +98,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/8/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/8/contribution/0",
         "verified": true
       }]
     },
@@ -109,7 +109,7 @@
         "contributorId": null,
         "contributedLocation": null,
         "verifierId": "0xEC60b9a43529c12CA83Af466D8A6F8444392D47C",
-        "verifiedLocation": "http://http://167.71.156.62:8080//chunks/9/contribution/0",
+        "verifiedLocation": "http://http://167.71.156.62:8080/chunks/9/contribution/0",
         "verified": true
       }]
     }
