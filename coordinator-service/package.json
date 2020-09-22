@@ -5,14 +5,16 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "init-db": "node dist/index.js init",
-    "clean": "rm -rf .storage/db.json",
-    "start": "npm run init-db && node dist/index.js http",
-    "start-nodemon": "npm run init-db && nodemon --watch dist dist/index.js http",
+    "setup": "yarn build && node dist/index.js init",
+    "prestart": "echo '\nInitializing database...\n' && yarn run setup && echo '\nStarting server...\n'",
+    "start": "yarn prestart && node dist/index.js http",
+    "start:watch": "yarn prestart && nodemon --watch dist dist/index.js http",
+    "start:help": "node dist/index.js --help",
     "coverage": "nyc mocha -r ts-node/register src/**/*.test.ts",
-    "test": "npm run coverage && prettier --check \"./src/**/*.ts\" && eslint 'src/**/*.ts'",
+    "test": "yarn coverage && prettier --check \"./src/**/*.ts\" && eslint 'src/**/*.ts'",
     "format": "prettier --loglevel error --write \"./src/**/*.ts\"",
-    "lint": "eslint 'src/**/*.ts' --fix"
+    "lint": "eslint 'src/**/*.ts' --fix",
+    "clean": "rm -rf .storage/db.json"
   },
   "keywords": [],
   "author": "",

@@ -2,61 +2,67 @@
 
 ## Build Guide
 
-To install the Node.js dependencies, run:
+### Install Dependencies
+
+First, to install the Node.js dependencies, run:
 ```
-npm i
+yarn install
 ```
 
-To build, run:
+Next, to install JQ, run:
+
+*macOS*
 ```
-npm run build
+brew install jq
 ```
 
-Next, to create the environment file for chunking, run:
+*Ubuntu*
+```
+sudo apt-get install jq
+```
+
+### Initialization
+
+First, to create the environment file for chunking, run:
 ```
 cp ./config/local.env .env
 ```
 
-Reset the ceremony state:
-
+Next, to reset the ceremony state, run:
 ```
-npm run clean
-```
-
-Initialize the database:
-```
-npm run init-db
+yarn clean
 ```
 
-If you're going to test with a coordinator-client, you must create the
-[initial challenges using
-coordinator-client](../coordinator-client#initial-challenges-for-testing).
-
-### Starting
-
-Start:
-
+Next, to initialize the database, run:
 ```
-npm run start-nodemon
+yarn setup
 ```
 
-Curl ceremony state:
+Lastly, to test this coordinator with a client, you must
+[create the initial challenges using coordinator-client](../coordinator-client#initial-challenges-for-testing).
 
+### Start
+
+To start the server, run:
+```
+yarn start:watch
+```
+
+To query for ceremony state, run:
 ```
 curl localhost:8080/ceremony | jq '.'
 ```
 
 ## Configuration
 
-See `--help` for details:
-
+For help with command-line options, run:
 ```
-node dist/index.js --help
+yarn start:help
 ```
 
-### Example configurations
+### Example Configuration
 
-Copy one of the below to `.env`:
+Depending on your environment, copy one of the below into `.env` in this directory:
 
 * [local.env](./config/local.env) is a config for local development
-* [azure.env](./config/azure.env) is congig for storing contributions in Azure blob storage
+* [azure.env](./config/azure.env) is a config for storing contributions in Azure blob storage

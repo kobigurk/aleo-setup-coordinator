@@ -8,6 +8,7 @@ import {
     StorageSharedKeyCredential,
 } from '@azure/storage-blob'
 
+import { authAleo } from './auth-aleo'
 import { authCelo } from './auth-celo'
 import { authDummy } from './auth-dummy'
 import { BlobChunkStorage } from './blob-chunk-storage'
@@ -25,7 +26,7 @@ const httpArgs = {
         type: 'number',
     },
     'auth-type': {
-        choices: ['celo', 'dummy'],
+        choices: ['aleo', 'celo', 'dummy'],
         default: 'dummy',
         type: 'string',
     },
@@ -56,6 +57,14 @@ const httpArgs = {
     },
 }
 
+const cfgArgs = {
+    'config-path': {
+        type: 'string',
+        demand: true,
+        describe: 'Initial ceremony state file',
+    },
+}
+
 const dbArgs = {
     'db-file': {
         default: './.storage/db.json',
@@ -66,20 +75,15 @@ const dbArgs = {
 const argv = yargs
     .env('COORDINATOR')
     .command('http', 'Enable the HTTP server', { ...httpArgs, ...dbArgs })
-    .command('init', 'Initialize the ceremony', {
-        ...dbArgs,
-        'config-path': {
-            type: 'string',
-            demand: true,
-            describe: 'Initial ceremony state file',
-        },
-    })
+    .command('init', 'Initialize the ceremony', { ...cfgArgs, ...dbArgs })
     .demandCommand(1, 'You must specify a command.')
     .strictCommands()
     .help().argv
 
 function http(args): void {
-    let diskChunkStorage
+    // Loads the storage for chunked contributions.
+    // Supports `disk` and `azure` modes.
+    let diskChunkStorage // TODO (howardwu): Move this into `disk` case after confirming.
     let chunkStorage: ChunkStorage
     if (args.chunkStorageType === 'disk') {
         const chunkStorageUrl = `${args.diskChunkStorageUrl}/chunks`
@@ -103,14 +107,19 @@ function http(args): void {
         })
     }
 
+    // Select the appropriate authentication mode.
+    // Supports `aleo`, `celo`, and `dummy` modes.
     const auth = {
+        aleo: authAleo,
         celo: authCelo,
         dummy: authDummy,
     }[args.authType]
 
+    // Initialize the app.
     const coordinator = new DiskCoordinator({ dbPath: args.dbFile })
     const app = initExpress({ auth, coordinator, chunkStorage })
 
+    // If using the `disk` mode, enable endpoints for chunk contributions.
     if (args.chunkStorageType === 'disk') {
         app.use(bodyParser.raw({ limit: '5mb' }))
         app.post(
@@ -141,12 +150,32 @@ function http(args): void {
         })
     }
 
+    // Start the server listener.
     app.listen(args.port, () => {
         logger.info(`listening on ${args.port}`)
     })
 }
 
+/**
+ * Attempts to create a storage directory and initialize it.
+ */
 function init(args): void {
+    // Returns `true` if the argument is instantiated. Otherwise, returns `false`.
+    function isMissing(argument): boolean {
+        return argument === null || argument === undefined
+    }
+
+    // Check that dbFile is set.
+    if (isMissing(args.dbFile)) {
+        throw new TypeError("Missing argument value for dbFile")
+    }
+
+    // Check that configPath is set.
+    if (isMissing(args.configPath)) {
+        throw new TypeError("Missing argument value for configPath")
+    }
+
+    // Attempt to create a storage directory.
     const dbPath = args.dbFile
     const storagePath = path.dirname(dbPath)
     try {
@@ -156,6 +185,8 @@ function init(args): void {
             throw error
         }
     }
+
+    // Initialize the database based on configurations
     const config = JSON.parse(fs.readFileSync(args.configPath).toString())
     DiskCoordinator.init({ config, dbPath })
 }
@@ -177,4 +208,6 @@ function main(args): void {
     }
 }
 
+// Runs the `main` function on `argv`,
+// which reads the `.env` file for configurations.
 main(argv)
