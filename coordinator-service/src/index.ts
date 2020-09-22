@@ -150,6 +150,13 @@ function http(args): void {
         })
     }
 
+    // Enable CORS.
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*")
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+        next()
+    })
+
     // Start the server listener.
     app.listen(args.port, () => {
         logger.info(`listening on ${args.port}`)
