@@ -7,13 +7,13 @@ export class AuthDummy implements Auth {
         this.participantId = participantId
     }
 
-    getAuthorizationValue({
+    async getAuthorizationValue({
         method, // eslint-disable-line @typescript-eslint/no-unused-vars
         path, // eslint-disable-line @typescript-eslint/no-unused-vars
     }: {
         method: string
         path: string
-    }): string {
+    }): Promise<string> {
         return `Dummy ${this.participantId}`
     }
 }

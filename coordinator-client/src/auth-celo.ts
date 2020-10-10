@@ -20,13 +20,13 @@ export class AuthCelo implements Auth {
         this.privateKey = privateKey
     }
 
-    getAuthorizationValue({
+    async getAuthorizationValue({
         method,
         path,
     }: {
         method: string
         path: string
-    }): string {
+    }): Promise<string> {
         const message = `${method.toLowerCase()} ${path.toLowerCase()}`
         const signature = SignatureUtils.signMessage(
             message,

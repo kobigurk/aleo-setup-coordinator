@@ -44,7 +44,7 @@ export abstract class CeremonyParticipant {
                 method,
                 url: path,
                 headers: {
-                    Authorization: this.auth.getAuthorizationValue({
+                    Authorization: await this.auth.getAuthorizationValue({
                         method,
                         path,
                     }),
@@ -61,7 +61,7 @@ export abstract class CeremonyParticipant {
                 method,
                 url: path,
                 headers: {
-                    Authorization: this.auth.getAuthorizationValue({
+                    Authorization: await this.auth.getAuthorizationValue({
                         method,
                         path,
                     }),
@@ -101,7 +101,7 @@ export abstract class CeremonyParticipant {
                 method: destinationMethod,
                 url: destinationPath,
                 headers: {
-                    Authorization: this.auth.getAuthorizationValue({
+                    Authorization: await this.auth.getAuthorizationValue({
                         method: destinationMethod,
                         path: destinationPath,
                     }),
@@ -117,7 +117,7 @@ export abstract class CeremonyParticipant {
             method: contributeMethod,
             url: contributePath,
             headers: {
-                Authorization: this.auth.getAuthorizationValue({
+                Authorization: await this.auth.getAuthorizationValue({
                     method: contributeMethod,
                     path: contributePath,
                 }),

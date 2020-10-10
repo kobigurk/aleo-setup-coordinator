@@ -5,5 +5,5 @@ export interface Auth {
     }: {
         method: string
         path: string
-    }): string
+    }): Promise<string>
 }

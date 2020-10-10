@@ -33,7 +33,7 @@ export class DefaultChunkUploader implements ChunkUploader {
                 url,
                 headers: {
                     'Content-Type': 'application/octet-stream',
-                    Authorization: this.auth.getAuthorizationValue({
+                    Authorization: await this.auth.getAuthorizationValue({
                         method: 'POST',
                         path: parsedUrl.pathname,
                     }),

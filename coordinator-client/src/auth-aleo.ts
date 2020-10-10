@@ -1,7 +1,7 @@
 // TODO (howardwu): Swap this for Aleo authentication.
-import { SignatureUtils } from '@celo/utils/lib/signatureUtils'
-
 import { Auth } from './auth'
+
+const wasm_module = import('../snarkos-toolkit/snarkos_toolkit');
 
 // TODO (howardwu): Swap this for Aleo authentication.
 export class AuthAleo implements Auth {
@@ -16,26 +16,31 @@ export class AuthAleo implements Auth {
         privateKey: string
     }) {
         this.address = address
-        if (!privateKey.startsWith('0x')) {
-            privateKey = `0x${privateKey}`
-        }
         this.privateKey = privateKey
     }
 
-    getAuthorizationValue({
+    async getAuthorizationValue({
         method,
         path,
     }: {
         method: string
         path: string
-    }): string {
+    }): Promise<string> {
         const message = `${method.toLowerCase()} ${path.toLowerCase()}`
-        const signature = SignatureUtils.signMessage(
-            message,
-            this.privateKey,
-            this.address,
-        )
-        const serializedSignature = SignatureUtils.serializeSignature(signature)
-        return `Aleo ${this.address}:${serializedSignature}`
+
+        // TODO preload the wasm module instead of loading it per authorization call
+        //  This will likely increase efficiency quite a bit.
+        let signature_promise = wasm_module.then(toolkit => {
+            // Sign the message with the view key
+            let view_key = toolkit.ViewKey.from_private_key(this.privateKey);
+            let signature = view_key.sign(message);
+
+            return signature;
+        })
+        .catch(console.error);
+
+        let signature = await signature_promise;
+
+        return `Aleo ${this.address}:${signature}`
     }
 }
